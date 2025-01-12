@@ -10,16 +10,16 @@ void UMaterialParamSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	Super::Initialize(Collection);
 
 	Settings = GetDefault<UWetnessSubsystemSettings>();
-
-	if (Settings != nullptr)
-	{
-		UMaterialParameterCollection* ClimateData = LoadObject<UMaterialParameterCollection>(nullptr, *MyCore::MPCAsset);
-	}
+	MPCData = LoadObject<UMaterialParameterCollection>(nullptr, *MyCore::MPCAsset);
 }
 
 float UMaterialParamSubsystem::GetCurrentMPCValue() const
 {
-	UMaterialParameterCollectionInstance* Instance = GetWorld()->GetParameterCollectionInstance(ClimateData);
+	if(!ensure(MPCData != nullptr))
+	{
+		return;
+	}
+	UMaterialParameterCollectionInstance* Instance = GetWorld()->GetParameterCollectionInstance(MPCData);
 	if (Instance == nullptr)
 	{
 		return -1.f;
