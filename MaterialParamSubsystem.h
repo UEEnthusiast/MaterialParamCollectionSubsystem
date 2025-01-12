@@ -18,7 +18,7 @@ class UMaterialParamSubsystemSettings : public UDeveloperSettings
 
 public:
 	UPROPERTY(Config, EditDefaultsOnly)
-	FName ScalarParamName= "ScalarName";
+	FName ScalarParamName = "ScalarName";
 };
 
 /**
@@ -34,8 +34,8 @@ public:
   	float GetCurrentValueFromMPC() const;
 private:
 UPROPERTY()
-	TObjectPtr<UMaterialParameterCollectionInstance> MPCInstance = nullptr;
+	TObjectPtr<UMaterialParameterCollection> MPCData = nullptr;
 
 	UPROPERTY()
-	const TObjectPtr<UWetnessSubsystemSettings> Settings = nullptr;
+	const UWetnessSubsystemSettings* Settings = nullptr;
 };
