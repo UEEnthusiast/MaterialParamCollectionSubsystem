@@ -6,6 +6,11 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "MaterialParamSubsystem.generated.h"
 
+namespace MyCore
+{
+	static const FString ClimateDataAsset = FString{ "/Script/Engine.MaterialParameterCollection'/Game/../Collection/MPC_Exemple.MPC_Exemple" };
+} // namespace MyCore
+
 UCLASS(Config=Game)
 class UMaterialParamSubsystemSettings : public UDeveloperSettings
 {
@@ -13,7 +18,7 @@ class UMaterialParamSubsystemSettings : public UDeveloperSettings
 
 public:
 	UPROPERTY(Config, EditDefaultsOnly)
-	float GameDuration = 10.f;
+	FName ScalarParamName= "ScalarName";
 };
 
 /**
@@ -24,8 +29,13 @@ UCLASS()
 class UMaterialParamSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
-
+public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+  	float GetCurrentValueFromMPC() const;
+private:
+UPROPERTY()
+	TObjectPtr<UMaterialParameterCollectionInstance> MPCInstance = nullptr;
 
-  float GetCurrentValueFromMPC() const;
+	UPROPERTY()
+	const TObjectPtr<UWetnessSubsystemSettings> Settings = nullptr;
 };
